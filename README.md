@@ -1,70 +1,27 @@
-# regenerate-unicode-properties [![Build status](https://travis-ci.org/mathiasbynens/regenerate-unicode-properties.svg?branch=main)](https://travis-ci.org/mathiasbynens/regenerate-unicode-properties) [![regenerate-unicode-properties on npm](https://img.shields.io/npm/v/regenerate-unicode-properties)](https://www.npmjs.com/package/regenerate-unicode-properties)
+CSSStyleDeclaration
+===================
 
-_regenerate-unicode-properties_ is a collection of [Regenerate](https://github.com/mathiasbynens/regenerate) sets for [various Unicode properties](https://github.com/tc39/proposal-regexp-unicode-property-escapes).
+CSSStyleDeclaration is a work-a-like to the CSSStyleDeclaration class in Nikita Vasilyev's [CSSOM](https://github.com/NV/CSSOM). I made it so that when using [jQuery in node](https://github.com/tmtk75/node-jquery) setting css attributes via $.fn.css() would work. node-jquery uses [jsdom](https://github.com/tmpvar/jsdom) to create a DOM to use in node. jsdom uses CSSOM for styling, and CSSOM's implementation of the [CSSStyleDeclaration](http://www.w3.org/TR/DOM-Level-2-Style/css.html#CSS-CSSStyleDeclaration) doesn't support [CSS2Properties](http://www.w3.org/TR/DOM-Level-2-Style/css.html#CSS-CSS2Properties), which is how jQuery's [$.fn.css()](http://api.jquery.com/css/) operates.
 
-## Installation
 
-To use _regenerate-unicode-properties_ programmatically, install it as a dependency via [npm](https://www.npmjs.com/):
+Why not just issue a pull request?
+----
+Well, NV wants to keep CSSOM fast (which I can appreciate) and CSS2Properties aren't required by the standard (though every browser has the interface). So I figured the path of least resistence would be to just modify this one class, publish it as a node module (that requires CSSOM) and then make a pull request of jsdom to use it.
 
-```bash
-$ npm install regenerate-unicode-properties
-```
+How do I test this code?
+---
+`npm test` should do the trick, assuming you have the dev dependencies installed:
+> ```
+> $ npm test
+>
+> tests
+> ✔ Verify Has Properties
+> ✔ Verify Has Functions
+> ✔ Verify Has Special Properties
+> ✔ Test From Style String
+> ✔ Test From Properties
+> ✔ Test Shorthand Properties
+> ✔ Test width and height Properties and null and empty strings
+> ✔ Test Implicit Properties
+> ```
 
-## Usage
-
-To get a map of supported properties and their values:
-
-```js
-const properties = require('regenerate-unicode-properties');
-```
-
-To get a specific Regenerate set:
-
-```js
-// Examples:
-const Lu = require('regenerate-unicode-properties/General_Category/Uppercase_Letter.js').characters;
-const Greek = require('regenerate-unicode-properties/Script_Extensions/Greek.js').characters;
-```
-
-Some properties can also refer to strings rather than single characters:
-```js
-const { characters, strings } = require('regenerate-unicode-properties/Property_of_Strings/Basic_Emoji.js');
-```
-
-To get the Unicode version the data was based on:
-
-```js
-const unicodeVersion = require('regenerate-unicode-properties/unicode-version.js');
-```
-
-## For maintainers
-
-### How to publish a new release
-
-1. On the `main` branch, bump the version number in `package.json`:
-
-    ```sh
-    npm version patch -m 'Release v%s'
-    ```
-
-    Instead of `patch`, use `minor` or `major` [as needed](https://semver.org/).
-
-    Note that this produces a Git commit + tag.
-
-1. Push the release commit and tag:
-
-    ```sh
-    git push && git push --tags
-    ```
-
-    Our CI then automatically publishes the new release to npm.
-
-## Author
-
-| [![twitter/mathias](https://gravatar.com/avatar/24e08a9ea84deb17ae121074d0f17125?s=70)](https://twitter.com/mathias "Follow @mathias on Twitter") |
-|---|
-| [Mathias Bynens](https://mathiasbynens.be/) |
-
-## License
-
-_regenerate-unicode-properties_ is available under the [MIT](https://mths.be/mit) license.
